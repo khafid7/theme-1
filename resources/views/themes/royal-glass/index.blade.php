@@ -37,7 +37,7 @@
         <source src="{{ asset($invitation->music_file) }}" type="audio/mp3">
     </audio>
 
-    <div id="gate" class="gate-overlay flex-col text-center px-6 bg-[url('{{ $invitation->cover_image }}')] bg-cover bg-center">
+    <div id="gate" class="gate-overlay flex-col text-center px-6 bg-cover bg-center" style="background-image: url('{{ $invitation->cover_image }}');">
         <div class="absolute inset-0 bg-black/80"></div>
         <div class="relative z-10 space-y-6">
             <p class="font-royal text-xs tracking-[0.4em] text-gray-400 uppercase">The Wedding Of</p>

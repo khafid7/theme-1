@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Kalau mau nambah CSS manual khusus Rustic, tulis di sini */
+.font-pinyon {
+    font-family: 'Pinyon Script', cursive;
+}
+/* Tekstur Kertas Kasar */
+.bg-texture {
+    background-color: #F9F9F2;
+    background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
+    /* Ini link pattern kertas ringan, aman & ringan */
+}
+
+/* Biar scrollnya halus */
+html {
+    scroll-behavior: smooth;
+}

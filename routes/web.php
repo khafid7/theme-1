@@ -46,14 +46,23 @@ Route::post('/kirim-ucapan', function (Request $request) {
 // --- 2. TAMPILKAN UNDANGAN + KOMENTAR (Read) ---
 Route::get('/{slug}', function ($slug) {
     
-    // Ambil data undangan BESERTA komentar-komentarnya
-    // 'with' digunakan agar loading database lebih cepat (Eager Loading)
-    $invitation = Invitation::with('comments')->where('slug', $slug)->firstOrFail();
+    // 1. Ambil Data
+    $invitation = \App\Models\Invitation::with('comments')->where('slug', $slug)->firstOrFail();
 
     if (!$invitation->is_active) {
         abort(404, 'Undangan tidak aktif.');
     }
 
-    return view('undangan', ['invitation' => $invitation]);
+    // 2. LOGIC PEMILIH TEMA
+    // Polanya: themes.nama-folder.index
+    $viewPath = 'themes.' . $invitation->theme . '.index';
+
+    // 3. Cek apakah filenya ada? Kalau ga ada, error atau fallback
+    if (!view()->exists($viewPath)) {
+        return "ERROR: Tema '" . $invitation->theme . "' belum dibuat file view-nya!";
+    }
+
+    // 4. Tampilkan View yang sesuai
+    return view($viewPath, ['invitation' => $invitation]);
     
 })->name('invitation.show');

@@ -15,17 +15,17 @@ return new class extends Migration
             $table->id();
 
             // --- 1. CONFIG & URL ---
-            $table->string('slug')->unique(); // Link undangan (ex: romeo-juliet)
+            $table->string('slug')->unique(); // Link undangan
             $table->string('theme')->default('royal-glass'); 
             $table->boolean('is_active')->default(true); 
 
             // --- 2. MEMPELAI PRIA (GROOM) ---
-            $table->string('groom_name');       // Nama Lengkap + Gelar
+            $table->string('groom_name');       // Nama Lengkap
             $table->string('groom_nickname');   // Nama Panggilan
             $table->string('groom_father');     // Nama Ayah
             $table->string('groom_mother');     // Nama Ibu
             $table->string('groom_instagram')->nullable();
-            $table->string('groom_photo')->nullable(); // Path foto
+            $table->string('groom_photo')->nullable(); // foto Pria
 
             // --- 3. MEMPELAI WANITA (BRIDE) ---
             $table->string('bride_name');       
@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('bride_father');
             $table->string('bride_mother');
             $table->string('bride_instagram')->nullable();
-            $table->string('bride_photo')->nullable();
+            $table->string('bride_photo')->nullable(); 
 
             // --- 4. ACARA 1 (AKAD) ---
             $table->string('akad_title')->default('Akad Nikah');
@@ -50,9 +50,9 @@ return new class extends Migration
             $table->text('resepsi_map_link')->nullable();
 
             // --- 6. DIGITAL GIFT (1 Bank) ---
-            $table->string('bank_name')->nullable();    // Contoh: BCA
-            $table->string('bank_number')->nullable();  // Contoh: 1234567890
-            $table->string('bank_holder')->nullable();  // Contoh: a.n Romeo Pratama
+            $table->string('bank_name')->nullable();    // Nama Bank
+            $table->string('bank_number')->nullable();  // Nomor Rekening
+            $table->string('bank_holder')->nullable();  // a.n Rekening
             
             // Alamat Kirim Kado Fisik
             $table->text('gift_address')->nullable(); 
@@ -60,7 +60,8 @@ return new class extends Migration
 
             // --- 7. ASSETS & CONTENT ---
             $table->string('music_file')->nullable(); 
-            $table->string('cover_image')->nullable(); 
+            $table->string('cover_image')->nullable();
+            $table->string('hero_image'); // Foto Home 
             $table->text('quote')->nullable(); 
             $table->json('gallery_photos')->nullable(); // Array Foto
             $table->json('love_stories')->nullable();   // Array Cerita
