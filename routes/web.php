@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
-use App\Models\Invitation; // Jangan lupa ini
-use App\Models\Comment;    // Dan ini
+use App\Models\Invitation;
+use App\Models\Comment;
 
 /*
 |--------------------------------------------------------------------------
@@ -11,14 +11,16 @@ use App\Models\Comment;    // Dan ini
 |--------------------------------------------------------------------------
 */
 
+// Halaman Depan Server (Cuma buat cek jalan/nggak)
 Route::get('/', function () {
-    return "Server Undangan Berjalan! Silakan buka: /romeo-juliet";
+    return "Server Undangan Berjalan! Coba buka: sesuai linknya (Contoh : /romeo-juliet)";
 });
 
-// --- 1. PROSES SIMPAN UCAPAN (Create) ---
+// --- 1. PROSES SIMPAN UCAPAN (Backend Utama) ---
+// Ini dipakai oleh SEMUA TEMA (Royal, Rustic, Luxury)
 Route::post('/kirim-ucapan', function (Request $request) {
     
-    // Validasi input biar aman
+    // Validasi
     $request->validate([
         'invitation_slug' => 'required',
         'nama' => 'required|max:50',
@@ -26,43 +28,43 @@ Route::post('/kirim-ucapan', function (Request $request) {
         'kehadiran' => 'required'
     ]);
 
-    // 1. Cari Undangan berdasarkan Slug (yang dikirim dari hidden input form)
+    // Cari ID Undangan
     $invitation = Invitation::where('slug', $request->invitation_slug)->firstOrFail();
 
-    // 2. Simpan Komentar ke Database
+    // Simpan ke Database
     Comment::create([
-        'invitation_id' => $invitation->id, // Sambungkan ID-nya
+        'invitation_id' => $invitation->id,
         'nama' => $request->nama,
         'kehadiran' => $request->kehadiran,
         'ucapan' => $request->ucapan
     ]);
     
-    // 3. Balikin ke halaman tadi dengan pesan sukses
     return back()->with('success', 'Ucapan Anda berhasil terkirim.');
     
 })->name('kirim.ucapan');
 
 
-// --- 2. TAMPILKAN UNDANGAN + KOMENTAR (Read) ---
+// --- 2. TAMPILKAN UNDANGAN DINAMIS (Read) ---
+// Route Wildcard: Menangkap apapun slug yang diketik user
 Route::get('/{slug}', function ($slug) {
     
-    // 1. Ambil Data
+    // Ambil data undangan + komentar dari database
     $invitation = \App\Models\Invitation::with('comments')->where('slug', $slug)->firstOrFail();
 
     if (!$invitation->is_active) {
         abort(404, 'Undangan tidak aktif.');
     }
 
-    // 2. LOGIC PEMILIH TEMA
-    // Polanya: themes.nama-folder.index
+    // LOGIC AJAIB PEMILIH TEMA
+    // Kalau di DB theme='luxury-gold', dia otomatis buka: themes/luxury-gold/index.blade.php
     $viewPath = 'themes.' . $invitation->theme . '.index';
 
-    // 3. Cek apakah filenya ada? Kalau ga ada, error atau fallback
+    // Cek error kalau folder tema belum dibuat
     if (!view()->exists($viewPath)) {
-        return "ERROR: Tema '" . $invitation->theme . "' belum dibuat file view-nya!";
+        return "ERROR: Tema '" . $invitation->theme . "' belum dibuat file view-nya! Cek nama folder di resources/views/themes.";
     }
 
-    // 4. Tampilkan View yang sesuai
+    // Tampilkan Tema yang sesuai
     return view($viewPath, ['invitation' => $invitation]);
     
 })->name('invitation.show');

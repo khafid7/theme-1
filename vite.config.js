@@ -7,7 +7,9 @@ export default defineConfig({
             input: [
                 'resources/css/app.css', 
                 'resources/js/app.js', 
-                'resources/css/rustic.css'],
+                'resources/css/rustic.css', 
+                'resources/css/floral-pastel.css',
+            ],
             refresh: true,
         }),
     ],

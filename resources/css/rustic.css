@@ -2,18 +2,147 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Kalau mau nambah CSS manual khusus Rustic, tulis di sini */
+/* --- FONTS --- */
 .font-pinyon {
     font-family: 'Pinyon Script', cursive;
 }
-/* Tekstur Kertas Kasar */
-.bg-texture {
-    background-color: #F9F9F2;
-    background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
-    /* Ini link pattern kertas ringan, aman & ringan */
+/* Alias biar sesuai pemanggilan di HTML */
+.font-rustic-script {
+    font-family: 'Pinyon Script', cursive;
+}
+.font-rustic-serif {
+    font-family: 'Playfair Display', serif;
 }
 
-/* Biar scrollnya halus */
+/* --- GLOBAL UTILITIES --- */
 html {
     scroll-behavior: smooth;
 }
+
+.no-scroll {
+    overflow: hidden;
+}
+
+/* --- TEXTURE & COLORS --- */
+.bg-texture {
+    background-color: #F9F9F2;
+    background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
+}
+
+.text-sage-dark { color: #4A5D46; } /* Hijau Tua */
+.text-charcoal { color: #2F3E32; }  /* Abu Gelap */
+.text-cream { color: #F9F9F2; }
+.text-sage { color: #8DA399; }
+.text-terracotta { color: #C87964; }
+.bg-sage { background-color: #8DA399; }
+.bg-sage-dark { background-color: #4A5D46; }
+.bg-terracotta { background-color: #C87964; }
+.border-sage { border-color: #8DA399; }
+.border-cream { border-color: #F9F9F2; }
+
+/* --- COMPONENTS --- */
+.glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+}
+
+.section-divider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 4rem auto;
+    width: 80%;
+    opacity: 0.6;
+    color: #4A5D46;
+}
+
+/* --- ANIMATIONS --- */
+.slide-up {
+    animation: slideUp 1s ease-in-out forwards;
+}
+
+@keyframes slideUp {
+    to {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.animate-spin-slow {
+    animation: spin 8s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* --- WAVE DECORATION (BUKIT & TETESAN) --- */
+.wave-wrapper {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    z-index: 20;
+}
+
+.wave-svg {
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 70px;
+}
+
+/* 1. Efek Bukit (Menghadap ATAS) - Taruh di BAWAH section */
+.wave-bukit {
+    bottom: -1px;
+    transform: rotate(180deg);
+}
+
+/* 2. Efek Tetesan (Menghadap BAWAH) - Taruh di ATAS section */
+.wave-tetesan {
+    top: -1px;
+}
+/* ... code sebelumnya ... */
+
+/* --- CUSTOM SCROLLBAR (Biar Gak Kaku) --- */
+.rustic-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+.rustic-scroll::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.05);
+    border-radius: 10px;
+}
+.rustic-scroll::-webkit-scrollbar-thumb {
+    background-color: #8DA399; /* Warna Sage */
+    border-radius: 10px;
+}
+.rustic-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: #4A5D46;
+}
+
+/* --- COMMENT CARD STYLE --- */
+.rustic-comment-card {
+    background-color: #ffffff;
+    border-left: 4px solid #8DA399; /* Garis hijau di kiri */
+    border-radius: 0 12px 12px 0; /* Sudut kanan melengkung */
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    transition: all 0.3s ease;
+}
+.rustic-comment-card:hover {
+    transform: translateX(5px); /* Gerak ke kanan dikit pas dihover */
+    border-left-color: #C87964; /* Berubah jadi warna Terracotta */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}   
