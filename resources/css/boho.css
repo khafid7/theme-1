@@ -1,0 +1,189 @@
+
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --primary: #9A533E;       /* Terracotta Pekat */
+    --primary-light: #C98B78; /* Terracotta Pudar */
+    --secondary: #DBCDBA;     /* Krem Pasir */
+    --bg-color: #F7F3EB;      /* Warm White / Bone */
+    --text: #463830;          /* Dark Coffee */
+    --shadow: 0 15px 35px rgba(154, 83, 62, 0.1);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body { 
+    margin: 0; padding: 0; 
+    font-family: 'DM Sans', sans-serif; 
+    color: var(--text); 
+    background: #E0D8CC;
+    overflow: hidden; 
+}
+
+/* CONTAINER HP dengan Tekstur */
+.app-container {
+    max-width: 480px; margin: 0 auto;
+    background: var(--bg-color);
+    background-image: url("https://www.transparenttextures.com/patterns/cardboard-flat.png");
+    min-height: 100vh; position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 50px rgba(0,0,0,0.15);
+}
+
+/* === UTILITIES === */
+.font-serif { font-family: 'Playfair Display', serif; }
+.text-terra { color: var(--primary); }
+.text-coffee { color: var(--text); }
+
+/* Animasi Muncul */
+.animate-up { animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* === GATE (COVER) === */
+.gate-overlay {
+    position: fixed; inset: 0; z-index: 999;
+    display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
+    transition: transform 1.2s cubic-bezier(0.75, 0, 0.25, 1);
+    background-size: cover; background-position: center;
+}
+.gate-overlay.open { transform: translateY(-100%); }
+
+/* === SECTIONS === */
+.page-section {
+    position: absolute; inset: 0;
+    opacity: 0; visibility: hidden; z-index: 0;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    transform: scale(0.96);
+    background: var(--bg-color);
+    background-image: url("https://www.transparenttextures.com/patterns/cardboard-flat.png"); /* Konsisten texture */
+    padding-bottom: 120px; 
+}
+.page-section.active { opacity: 1; visibility: visible; z-index: 10; transform: scale(1); }
+.page-section.scrollable { overflow-y: auto; -ms-overflow-style: none; scrollbar-width: none; }
+.page-section.scrollable::-webkit-scrollbar { display: none; }
+
+/* === COMPONENTS === */
+
+/* Boho Card */
+.boho-card {
+    background: #ffffff;
+    border: 1px solid rgba(154, 83, 62, 0.08);
+    border-radius: 8px; /* Sudut sedikit rounded */
+    box-shadow: var(--shadow);
+    padding: 30px 25px; margin-bottom: 25px;
+    position: relative;
+}
+/* Hiasan Sudut Kartu */
+.boho-card::after {
+    content: ''; position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px;
+    border: 1px dashed var(--secondary); pointer-events: none; border-radius: 4px;
+}
+
+/* Couple Arch Image (Lebih Halus) */
+.couple-frame-wrapper {
+    position: relative; display: inline-block; margin-bottom: 15px;
+}
+.couple-arch {
+    width: 140px; height: 190px;
+    object-fit: cover;
+    border-radius: 100px 100px 0 0; /* Arch Shape */
+    border: 5px solid white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    position: relative; z-index: 2;
+}
+/* Elemen dekoratif di belakang foto */
+.couple-deco {
+    position: absolute; top: -10px; left: -10px; width: 100%; height: 100%;
+    border-radius: 100px 100px 0 0;
+    border: 1px solid var(--primary);
+    z-index: 1; opacity: 0.5;
+}
+
+/* Timeline Story */
+.timeline-item {
+    border-left: 1px solid var(--secondary);
+    padding-left: 25px; margin-left: 10px; padding-bottom: 40px;
+    position: relative;
+}
+.timeline-item:last-child { border-left: none; }
+.timeline-dot {
+    position: absolute; left: -5px; top: 0;
+    width: 10px; height: 10px; background: var(--primary);
+    border-radius: 50%;
+}
+
+/* Gift Card (Redesigned) */
+.gift-card-boho {
+    background: #F2EBE5;
+    padding: 30px; border-radius: 12px;
+    text-align: center; position: relative;
+    border: 1px solid var(--secondary);
+    margin-bottom: 30px;
+}
+.gift-card-boho h2 { color: var(--primary); font-family: 'DM Sans', sans-serif; letter-spacing: 2px; }
+
+/* Form Input Line Style */
+.form-input {
+    width: 100%; padding: 15px 5px;
+    border: none; border-bottom: 1px solid #D4C5B0;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text); outline: none; margin-bottom: 20px;
+    border-radius: 0; font-size: 0.95rem;
+    transition: 0.3s;
+}
+.form-input:focus { border-bottom-color: var(--primary); }
+
+.btn-terra {
+    background: var(--primary); color: white;
+    padding: 16px 30px; border-radius: 50px; border: none;
+    font-family: 'DM Sans', sans-serif; font-weight: bold; text-transform: uppercase;
+    font-size: 0.8rem; letter-spacing: 2px; cursor: pointer;
+    box-shadow: 0 8px 20px rgba(154, 83, 62, 0.25);
+    transition: 0.3s; width: 100%;
+}
+.btn-terra:hover { background: #7A3E2D; transform: translateY(-2px); }
+
+/* === NAVBAR (Dark & Sleek) === */
+.bottom-nav {
+    position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%) translateY(200%);
+    width: auto; min-width: 300px; height: 60px;
+    background: #3D322C; /* Deep Espresso */
+    border-radius: 30px; padding: 0 20px;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 100;
+    box-shadow: 0 15px 35px rgba(61, 50, 44, 0.3);
+    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    opacity: 0; pointer-events: none;
+}
+.bottom-nav.visible { transform: translateX(-50%) translateY(0); opacity: 1; pointer-events: auto; }
+
+.nav-item {
+    width: 45px; height: 45px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.4); cursor: pointer; transition: 0.3s;
+}
+.nav-item i { font-size: 1.3rem; }
+.nav-item.active { color: #E8DCC8; transform: translateY(-4px); }
+.nav-item.active i { font-weight: fill; }
+.nav-item.active::after {
+    content: '•'; position: absolute; bottom: 2px; font-size: 1.5rem; color: #E8DCC8; line-height: 0;
+}
+
+/* Music Button */
+.music-btn {
+    position: fixed; top: 30px; right: 30px; z-index: 100;
+    width: 45px; height: 45px; background: #F2EBE5; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); color: var(--primary);
+    border: 1px solid var(--secondary);
+    cursor: pointer; opacity: 0; transform: scale(0); transition: 0.5s;
+}
+.music-btn.visible { opacity: 1; transform: scale(1); }
+.spin { animation: spin 5s linear infinite; }
+@keyframes spin { 100% { transform: rotate(360deg); } }
